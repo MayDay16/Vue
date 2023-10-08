@@ -1,0 +1,68 @@
+<!-- Часть 2. Задание Vue
+
+Вы разрабатываете приложение для интернет-магазина и у вас есть компонент Vue под названием "ProductDetails". Компонент отображает детали о конкретном продукте, включая его название, цену и статус доступности.
+
+Внутри компонента "ProductDetails" создайте свойство "product" с объектом, представляющим информацию о продукте. Объект должен иметь свойства "name" (название продукта), "price" (цена продукта) и "available" (флаг, указывающий на доступность продукта).
+
+Используя вычисляемое свойство, назовите его "formattedPrice", которое будет возвращать форматированную цену продукта со знаком валюты. Например, если цена равна 99.99, вычисляемое свойство должно вернуть строку "$99.99".
+
+В компоненте "ProductDetails" отобразите название продукта, его форматированную цену и статус доступности.
+
+Если продукт доступен, отобразите текст "Available", в противном случае - "Out of stock". -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details</title>
+    <!-- Включение Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Использование компонента ProductDetails и передача объекта product -->
+      <product-details :product="product"></product-details>
+    </div>
+
+    <script>
+      // Определение компонента ProductDetails
+      Vue.component("product-details", {
+        props: {
+          product: {
+            type: Object,
+            required: true,
+          },
+        },
+        computed: {
+          formattedPrice() {
+            return "$" + this.product.price.toFixed(2);
+          },
+          availabilityText() {
+            return this.product.available ? "Available" : "Out of stock";
+          },
+        },
+        template: `
+        <div>
+          <h1>{{ product.name }}</h1>
+          <p>{{ formattedPrice }}</p>
+          <p>{{ availabilityText }}</p>
+        </div>
+      `,
+      });
+
+      new Vue({
+        el: "#app",
+        data: {
+          // Пример объекта продукта
+          product: {
+            name: "Пример продукта",
+            price: 99.99,
+            available: true,
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
